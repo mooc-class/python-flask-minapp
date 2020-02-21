@@ -1,0 +1,42 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+{% include "common/tab_member.html" %}
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered m-t">
+            <thead>
+            <tr>
+                <th>头像</th>
+                <th>姓名</th>
+                <th>美餐</th>
+                <th>评论内容</th>
+                <th>打分</th>
+            </tr>
+            </thead>
+            <tbody>
+            {%  if list %}
+                {% for item in list %}
+            <tr>
+                <td>
+                    <img alt="image" class="img-circle" src="{{ item.member_info.avatar }}" style="width: 40px;height: 40px;">
+                </td>
+                <td>{{ item.member_info.nickname }}</td>
+                <td>
+                     {% for item_food in item.foods %}
+                        {{ item_food.name }}、
+                    {% endfor %}
+                </td>
+                <td>{{ item.content }}</td>
+                <td>{{ item.score }}</td>
+            </tr>
+             {% endfor %}
+            {% else %}
+                <tr><td colspan="5">暂无数据</td></tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <!--分页代码已被封装到统一模板文件中-->
+        {% include 'common/pagenation.html' %}
+    </div>
+</div>
+{% endblock %}

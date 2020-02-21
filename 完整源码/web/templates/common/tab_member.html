@@ -1,0 +1,14 @@
+<div class="row  border-bottom">
+    <div class="col-lg-12">
+        <div class="tab_title">
+            <ul class="nav nav-pills">
+                <li {% if current == "index" %} class="current" {% endif %}>
+                    <a href="{{ buildUrl('/member/index') }}">会员列表</a>
+                </li>
+                <li {% if current == "comment" %} class="current" {% endif %}>
+                    <a href="{{ buildUrl('/member/comment') }}">会员评论</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

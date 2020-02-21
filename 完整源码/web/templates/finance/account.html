@@ -1,0 +1,35 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+{% include "common/tab_finance.html" %}
+<div class="row">
+    <div class="col-lg-12 m-t">
+        <p>总收款金额：{{ total_money }}元</p>
+    </div>
+    <div class="col-lg-12">
+        <table class="table table-bordered m-t">
+            <thead>
+            <tr>
+                <th>订单编号</th>
+                <th>价格</th>
+                <th>支付时间</th>
+            </tr>
+            </thead>
+            <tbody>
+             {% if list %}
+                {% for item in list %}
+            <tr>
+                <td>{{ item.order_number }}</td>
+                <td>{{ item.total_price }}</td>
+                <td>{{ item.pay_time }}</td>
+            </tr>
+             {% endfor %}
+            {% else %}
+                <tr><td colspan="3">暂无数据~~</td></tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <!--分页代码已被封装到统一模板文件中-->
+         {% include 'common/pagenation.html' %}
+    </div>
+</div>
+{% endblock %}

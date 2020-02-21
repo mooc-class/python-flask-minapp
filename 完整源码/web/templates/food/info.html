@@ -1,0 +1,99 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+{% include "common/tab_food.html" %}
+<style type="text/css">
+    .wrap_info img {
+        width: 70%;
+    }
+</style>
+<div class="row m-t wrap_info">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="m-b-md">
+                    <a class="btn btn-outline btn-primary pull-right" href="{{ buildUrl('/food/set') }}?id={{ info.id }}">
+                        <i class="fa fa-pencil"></i>编辑
+                    </a>
+                    <h2>美食信息</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="m-t">美食名：{{ info.name }}</p>
+                <p>售价：{{ info.price }}</p>
+                <p>库存总量：{{ info.stock }}</p>
+                <p>图书标签：{{ info.tags }}</p>
+                <p>封面图：<img src="{{ buildImageUrl( info.main_image ) }}" style="width: 50px;height: 50px;"></p>
+                <p>描述：</p>
+                <p>{{ info.summary | safe }}</p>
+                <p></p>
+            </div>
+        </div>
+        <div class="row m-t">
+            <div class="col-lg-12">
+                <div class="panel blank-panel">
+                    <div class="panel-heading">
+                        <div class="panel-options">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab-1" data-toggle="tab" aria-expanded="false">销售历史</a>
+                                </li>
+                                <li>
+                                    <a href="#tab-2" data-toggle="tab" aria-expanded="true">库存变更</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab-1">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>会员名称</th>
+                                        <th>购买数量</th>
+                                        <th>购买价格</th>
+                                        <th>订单状态</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="4">暂无销售记录</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="tab-2">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>变更</th>
+                                        <th>备注</th>
+                                        <th>时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                     {% if stock_change_list %}
+                                        {% for item in stock_change_list %}
+                                        <tr>
+                                        <td>{{ item.unit }}</td>
+                                        <td>{{ item.note }}</td>
+                                        <td>{{ item.created_time }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                            <tr><td colspan="3">暂无数据~~</td></tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

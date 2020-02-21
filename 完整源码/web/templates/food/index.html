@@ -1,0 +1,98 @@
+{% extends "common/layout_main.html" %}
+{% block content %}
+{% include "common/tab_food.html" %}
+<div class="row">
+    <div class="col-lg-12">
+        <form class="form-inline wrap_search">
+            <div class="row  m-t p-w-m">
+                <div class="form-group">
+                    <select name="status" class="form-control inline">
+                        <option value="-1">请选择状态</option>
+                        {% for tmp_key in status_mapping %}
+                        <option value="{{ tmp_key }}" {% if tmp_key == search_con['status']  %} selected {% endif %}>{{  status_mapping[ tmp_key ] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="cat_id" class="form-control inline">
+                        <option value="0">请选择分类</option>
+                        {% for tmp_key in cat_mapping %}
+                            <option value="{{ tmp_key }}" {% if tmp_key|string == search_con['cat_id']  %} selected {% endif %} >{{ cat_mapping[ tmp_key].name  }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" name="mix_kw" placeholder="请输入关键字" class="form-control" value="{{ search_con['mix_kw'] }}">
+                        <input type="hidden" name="p" value="{{ search_con['p'] }}">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn  btn-primary search">
+                                <i class="fa fa-search"></i>搜索
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-w-m btn-outline btn-primary pull-right" href="{{ buildUrl('/food/set') }}">
+                        <i class="fa fa-plus"></i>美食
+                    </a>
+                </div>
+            </div>
+
+        </form>
+        <table class="table table-bordered m-t">
+            <thead>
+            <tr>
+                <th>美食名</th>
+                <th>分类</th>
+                <th>价格</th>
+                <th>库存</th>
+                <th>标签</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+             {% if list %}
+                {% for item in list %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ cat_mapping[ item.cat_id].name  }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.stock }}</td>
+                <td>{{ item.tags }}</td>
+                <td>
+                    <a href="{{ buildUrl('/food/info') }}?id={{ item.id  }}">
+                        <i class="fa fa-eye fa-lg"></i>
+                    </a>
+                     {%  if item.status == 1 %}
+                    <a class="m-l" href="{{ buildUrl('/food/set') }}?id={{ item.id  }}">
+                        <i class="fa fa-edit fa-lg"></i>
+                    </a>
+
+                    <a class="m-l remove" href="javascript:void(0);" data="{{ item.id  }}">
+                        <i class="fa fa-trash fa-lg"></i>
+                    </a>
+                    {% else %}
+                       <a class="m-l recover" href="javascript:void(0);" data="{{ item.id  }}">
+                        <i class="fa fa-rotate-left fa-lg"></i>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+             {% endfor %}
+            {% else %}
+                <tr><td colspan="6">暂无数据~~</td></tr>
+            {% endif %}
+            </tbody>
+        </table>
+        <!--分页代码已被封装到统一模板文件中-->
+        {% include 'common/pagenation.html' %}
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script src="{{ buildStaticUrl('/js/food/index.js') }}"></script>
+{% endblock %}
